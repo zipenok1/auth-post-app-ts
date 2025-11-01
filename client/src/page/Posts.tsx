@@ -2,12 +2,14 @@ import { useEffect, useState, type FormEvent } from 'react'
 import type { IPostsRes } from '../type/api/posts.type'
 import * as Api from '../api'
 import PostsItem from '../components/PostsItem'
+import MySelect from '../components/MySelect'
 import '../styles/Posts.css'
 
 function Posts() {
   const [posts, setPosts] = useState<IPostsRes[]>([])
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
+  const [selectedSort, setSelectedSort] = useState<string>('')
 
   const getAllPosts = async () => {
     try {
@@ -35,6 +37,12 @@ function Posts() {
     getAllPosts()
   }, [])
 
+  const sortPosts = (sort: string) => {
+    setSelectedSort(sort)
+    if(sort === 'title' || sort === 'description') 
+    setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
+  }
+
   return (
     <div className="posts__content">
       <div className="posts__content-form">
@@ -54,10 +62,21 @@ function Posts() {
             required
           />
           <button type="submit">добавить</button>
-        </form>
+        </form>  
+        <div className='select-box'>
+          <MySelect
+            value={selectedSort}
+            onChange={sortPosts}
+            defaultValue='сортировка'
+            options = {[
+              {value: 'title', name: 'по названию'},
+              {value: 'description', name: 'по описанию'}
+            ]}
+          />
+        </div>
       </div>
       {posts.length === 0 ? (
-        <div className="posts__content-none">постов нет</div>
+        <div className="posts__content-none">посты не найдены</div>
       ) : (
         posts.map((el) => (
           <div key={el.id_posts}>
