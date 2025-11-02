@@ -33,8 +33,7 @@ const Auth = observer(() => {
       } else {
         response = await Api.auth.register({ email, password });
       }
-      localStorage.setItem('token', response.token)
-      user.setIsAuth(true)
+      user.login(response.token)
       navigate('/posts')
     } catch(error: any){
       alert('ошибка: ' + (error.response?.data?.message || error.message))
