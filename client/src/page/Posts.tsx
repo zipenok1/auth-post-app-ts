@@ -4,12 +4,14 @@ import * as Api from '../api'
 import PostsItem from '../components/PostsItem'
 import MySelect from '../components/MySelect'
 import '../styles/Posts.css'
+import MySearch from '../components/MySearch'
 
 function Posts() {
   const [posts, setPosts] = useState<IPostsRes[]>([])
   const [title, setTitle] = useState<string>('')
   const [description, setDescription] = useState<string>('')
   const [selectedSort, setSelectedSort] = useState<string>('')
+  const [searchQuery, setSearchQuery] = useState<string>('')
 
   const getAllPosts = async () => {
     try {
@@ -43,6 +45,10 @@ function Posts() {
     setPosts([...posts].sort((a, b) => a[sort].localeCompare(b[sort])))
   }
 
+  const filteredPosts = posts.filter(post => 
+    post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  )
+
   return (
     <div className="posts__content">
       <div className="posts__content-form">
@@ -64,6 +70,10 @@ function Posts() {
           <button type="submit">добавить</button>
         </form>  
         <div className='select-box'>
+          <MySearch
+            value={searchQuery}
+            onChange={setSearchQuery}
+          />
           <MySelect
             value={selectedSort}
             onChange={sortPosts}
@@ -78,7 +88,7 @@ function Posts() {
       {posts.length === 0 ? (
         <div className="posts__content-none">посты не найдены</div>
       ) : (
-        posts.map((el) => (
+        filteredPosts.map((el) => (
           <div key={el.id_posts}>
             <PostsItem posts={el} onUpdate={getAllPosts}/>
           </div>

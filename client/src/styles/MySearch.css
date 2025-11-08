@@ -1,0 +1,11 @@
+.my-search{
+    padding-bottom: 12px;
+    display: flex;
+}
+.my-search input{
+    border: 2px solid rgba(224, 224, 224, 1);
+    border-radius: 8px 0 0 8px;
+    padding: 12px 10px;
+    font-size: 14px;
+    width: 100%;
+}

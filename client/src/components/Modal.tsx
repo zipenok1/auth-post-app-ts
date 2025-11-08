@@ -83,8 +83,8 @@ function Modal ({id, posts, isOpen, onClose, onUpdate}: ModalProps) {
             <div className="modal__delete">
                 <p>вы действительно хотите удалить пост?</p>
                 <div className="modal__delete-btm">
-                <button onClick={onClose}>Отмена</button>
-                <button onClick={deleteClick}>Удалить</button>
+                <button onClick={onClose}>отмена</button>
+                <button onClick={deleteClick}>удалить</button>
                 </div>
             </div>
             )}
